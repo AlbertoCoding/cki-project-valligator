@@ -28,23 +28,25 @@ def check_bug_trackers(cover, patches, key):
     return to_return
 
 
-def subject_contains_keyval(cover, patches, key):
-    """ Example function to start with the tool  """
+def subject_contains_keyword(cover, patches, key):
+    """ Check the subject contains a required keyword  """
 
-    #pattern = re.compile(r'^{}Subject:\s+\S+'.format(key), re.I | re.M)
-    #if pattern.search(cover)
-    subject_pos = cover.find("Subject:")
+    subject_content = ""
+    to_return = False
 
     cover_lines = cover.split('\n')
-
-#    cover_lines = cover.getlines()
     for line in cover_lines:
-        pos = line.find("Subject:")
-        if pos != -1:
-            print("Printing subject content:")
-            print(line[pos+len("Subject:"):])
+        subject_pos = line.find("Subject:")
+        if subject_pos != -1:
+            subject_content = line[subject_pos+len("Subject:"):]
+            #print(subject_content)
+        if subject_content.find(key) != -1:
+            to_return = True
 
-#    print()
-    #print(cover[subject_pos:end_subject_line])
-    to_return = True
+    if to_return:
+        print("Keyword " + key + " found in subject content")
+    else:
+        print("Keyword " + key + " not found in subject content")
+
+
     return to_return
