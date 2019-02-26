@@ -1,0 +1,32 @@
+From patchwork Fri Feb 22 17:39:29 2019
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: [v2,0/2] NETWORKING: avoid use IPCB in cipso_v4_error
+X-Patchwork-Submitter: Nazarov Sergey <s-nazarov@yandex.ru>
+X-Patchwork-Id: 1047004
+Message-Id: <33533951550857169@myt3-2475c4d2af83.qloud-c.yandex.net>
+To: David Miller <davem@davemloft.net>
+Cc: "paul@paul-moore.com" <paul@paul-moore.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-security-module@vger.kernel.org" 
+ <linux-security-module@vger.kernel.org>,
+ "kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
+ "yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>
+Date: Fri, 22 Feb 2019 20:39:29 +0300
+From: Nazarov Sergey <s-nazarov@yandex.ru>
+List-Id: <netdev.vger.kernel.org>
+
+The original discussion is here:
+https://lore.kernel.org/linux-security-module/16659801547571984@sas1-890ba5c2334a.qloud-c.yandex.net/
+
+Changes in v2:
+- original patch divided on 2 parts: add __icmp_send function, fix cipso_v4_error
+- add __ip_option_compile not using icmp_send in case nof error
+---
+ include/net/icmp.h    |    9 ++++++++-
+ include/net/ip.h      |    2 ++
+ net/ipv4/cipso_ipv4.c |   17 +++++++++++++++--
+ net/ipv4/icmp.c       |    7 ++++---
+ net/ipv4/ip_options.c |   22 +++++++++++++++++-----
+ 5 files changed, 46 insertions(+), 11 deletions(-)
